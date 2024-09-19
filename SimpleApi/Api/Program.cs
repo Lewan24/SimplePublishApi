@@ -6,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-AppSettings appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
+AppSettings? appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 
-if (!string.IsNullOrWhiteSpace(appSettings.HostingUrls))
+if (appSettings is not null && !string.IsNullOrWhiteSpace(appSettings.HostingUrls))
     builder.WebHost.UseUrls(appSettings.HostingUrls);
 
 var app = builder.Build();
@@ -25,9 +25,9 @@ app.MapGet("/updaterepo", () =>
     {
         try
         {
-            var processInfo = new ProcessStartInfo("update.bat")
+            var processInfo = new ProcessStartInfo(appSettings?.ExecuteFileName ?? "run.bat")
             {
-                WorkingDirectory = string.IsNullOrWhiteSpace(appSettings.ExecuteFilePath) ? 
+                WorkingDirectory = string.IsNullOrWhiteSpace(appSettings?.ExecuteFilePath) ? 
                     Directory.GetCurrentDirectory() : 
                     appSettings.ExecuteFilePath,
                 CreateNoWindow = true,

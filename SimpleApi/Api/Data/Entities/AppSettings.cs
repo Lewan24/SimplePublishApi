@@ -1,7 +1,3 @@
 namespace Api.Data.Entities;
 
-internal struct AppSettings
-{
-    public string? ExecuteFilePath { get; set; }
-    public string? HostingUrls { get; set; }
-}
+internal record AppSettings(string? ExecuteFilePath, string? ExecuteFileName, string? HostingUrls);
