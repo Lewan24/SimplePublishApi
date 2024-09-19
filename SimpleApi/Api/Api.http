@@ -1,0 +1,6 @@
+@Api_HostAddress = http://localhost:50000
+
+GET {{Api_HostAddress}}/updaterepo/
+Accept: application/json
+
+###
