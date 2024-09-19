@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Api.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/updaterepo", (string? apikey) =>
+app.MapGet("/updaterepo", ([FromQuery] string? apiKey) =>
     {
         if (appSettings is not null && !string.IsNullOrWhiteSpace(appSettings?.ApiKey))
             if (apiKey != appSettings.ApiKey)
