@@ -21,8 +21,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/updaterepo", () =>
+app.MapGet("/updaterepo", (string? apikey) =>
     {
+        if (appSettings is not null && !string.IsNullOrWhiteSpace(appSettings?.ApiKey))
+            if (apiKey != appSettings.ApiKey)
+                return Results.Problem("Invalid api key");
+
+
         try
         {
             var processInfo = new ProcessStartInfo(appSettings?.ExecuteFileName ?? "run.bat")
